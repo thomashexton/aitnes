@@ -1,0 +1,32 @@
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Location</th>
+      <th>Species</th>
+      <th>Gender</th>
+      <th>Affiliations</th>
+      <th>Weapon</th>
+      <th>Vehicle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @persons.each do |person| %>
+      <tr>
+        <td><%= person.first_name %> <%= person.last_name %></td>
+        <td><%= person.locations.map(&:name).join(", ") %></td>
+        <td><%= person.species %></td>
+        <td><%= person.gender %></td>
+        <td><%= person.affiliations.map(&:name).join(", ") %></td>
+        <td><%= person.weapon %></td>
+        <td><%= person.vehicle %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h4>See noting? Import a CSV below.</h4>
+<%= form_with model: @person do |form| %>
+  <%= form.file_field :csv %>
+  <%= form.submit %>
+<% end %>
