@@ -3,9 +3,7 @@ class CreateLocations < ActiveRecord::Migration[7.0]
     create_table :locations do |t|
       t.references :person
 
-      t.string :suburb
-      t.string :city
-      t.string :state
+      t.string :name
 
       t.timestamps
     end

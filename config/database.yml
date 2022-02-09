@@ -24,7 +24,7 @@ default: &default
 
 development:
   <<: *default
-  database: sentia_practice_development
+  database: aitnes_development
   username: user
   password: password
 
@@ -51,7 +51,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: sentia_practice_test
+  database: aitnes_test
   username: user
   password: password
 
@@ -77,6 +77,6 @@ test:
 #
 production:
   <<: *default
-  database: sentia_practice_production
-  username: sentia_practice
-  password: <%= ENV["SENTIA_PRACTICE_DATABASE_PASSWORD"] %>
+  database: aitnes_production
+  username: aitnes
+  password: <%= ENV["AITNES_DATABASE_PASSWORD"] %>
