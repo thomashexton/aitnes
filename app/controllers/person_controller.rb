@@ -13,7 +13,16 @@ class PersonController < ApplicationController
     # For example: Person.import(params.permit(:csv))
     CSV.foreach(params[:csv].path, headers: true, header_converters: :symbol) do |row|
       person_attributes = row.to_h.except(:location, :affiliations)
-      person = Person.create!(person_attributes)
+      person = Person.new(person_attributes)
+
+      affiliations_names = row[:affiliations]&.split(",")
+      if affiliations_names.present? # skip any without affiliation
+        person.save
+
+        affiliations_names.each do |affiliation_name|
+          person.affiliations << Affiliation.create(name: affiliation_name.titleize)
+        end
+      end
 
       location_names = row[:location]&.split(",")
       if location_names.present?
@@ -22,13 +31,6 @@ class PersonController < ApplicationController
         end
       end
 
-      affiliations_names = row[:affiliations]&.split(",")
-      # binding.break if row[:name].include?("Boba Fett")
-      if affiliations_names.present? # skip any without affiliation
-        affiliations_names.each do |affiliation_name|
-          person.affiliations << Affiliation.create(name: affiliation_name.titleize)
-        end
-      end
     end
 
     redirect_to root_path
