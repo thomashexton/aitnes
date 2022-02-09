@@ -26,6 +26,7 @@ class Person < ApplicationRecord
     def split_name
       return if name.blank?
 
+      # works, but a little finnicky ... upcase_first to get aroud C-3PO name bug
       names = ::Namae::Name.parse(name.upcase_first)
 
       self.first_name = names.given
