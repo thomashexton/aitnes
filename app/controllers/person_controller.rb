@@ -15,20 +15,20 @@ class PersonController < ApplicationController
       person_attributes = row.to_h.except(:location, :affiliations)
       person = Person.new(person_attributes)
 
-      affiliations_names = row[:affiliations]&.split(",")
-      if affiliations_names.present? # skip any without affiliation
-        person.save
+      affiliation_names = row[:affiliations]&.split(",")
+      next if affiliation_names.blank?
 
-        affiliations_names.each do |affiliation_name|
-          person.affiliations << Affiliation.create(name: affiliation_name.titleize)
-        end
+      person.save
+
+      affiliation_names.each do |affiliation_name|
+        person.affiliations << Affiliation.create(name: affiliation_name.titleize)
       end
 
       location_names = row[:location]&.split(",")
-      if location_names.present?
-        location_names.each do |location_name|
-          person.locations << Location.create(name: location_name.titleize)
-        end
+      next if location_names.blank?
+
+      location_names.each do |location_name|
+        person.locations << Location.create(name: location_name.titleize)
       end
 
     end
