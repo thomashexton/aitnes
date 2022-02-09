@@ -2,10 +2,22 @@ class PersonController < ApplicationController
 
   require "csv"
 
+  helper_method :sort_column, :sort_direction
+
   def index
-    # Need to add filtering on SQL level, and order by same request
-    # Paginate with .will_paginate
-    @persons = Person.all.includes(:locations, :affiliations)
+    @persons = \
+      Person.all
+        .includes(:locations, :affiliations)
+        .order(sort_column + ' ' + sort_direction)
+        .where("
+          first_name LIKE :query OR
+          species LIKE :query OR
+          gender LIKE :query OR
+          weapon LIKE :query OR
+          vehicle LIKE :query",
+          query: "%#{params[:query]}%"
+        )
+        .paginate(page: params[:page], per_page: 10)
   end
 
   def create
@@ -43,5 +55,15 @@ class PersonController < ApplicationController
 
     redirect_to root_path
   end
+
+  private
+
+    def sort_column
+      Person.column_names.include?(params[:sort]) ? params[:sort] : "first_name"
+    end
+
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    end
 
 end

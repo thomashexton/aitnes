@@ -1,13 +1,23 @@
+<%= form_with url: person_index_path, method: :get do |form| %>
+  <%= form.label :query, "Search for:" %>
+  <%= form.text_field :query %>
+  <%= form.submit "Search" %>
+<% end %>
+
+<%= will_paginate @persons %>
+
+<hr>
+
 <table>
   <thead>
     <tr>
-      <th>Name</th>
+      <th><%= sortable "name" %></th>
       <th>Location</th>
-      <th>Species</th>
-      <th>Gender</th>
+      <th><%= sortable "species" %></th>
+      <th><%= sortable "gender" %></th>
       <th>Affiliations</th>
-      <th>Weapon</th>
-      <th>Vehicle</th>
+      <th><%= sortable "weapon" %></th>
+      <th><%= sortable "vehicle" %></th>
     </tr>
   </thead>
   <tbody>
