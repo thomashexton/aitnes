@@ -9,6 +9,11 @@ PostgreSQL run in docker with:
 
 Run:
 `bundle install`
+`rails db:create`
+`rails db:migrate`
+`rails s`
+
+Now visit localhost:3000
 
 * System dependencies
 
