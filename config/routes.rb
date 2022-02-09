@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   resources :person, only: [:index, :create] do
     collection do
-      post :import
+      post :nuke
     end
   end
 

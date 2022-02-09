@@ -25,8 +25,16 @@
   </tbody>
 </table>
 
+<hr>
+
 <h4>See nothing? Import that CSV below.</h4>
 <%= form_with model: @person do |form| %>
   <%= form.file_field :csv %>
-  <%= form.submit %>
+  <%= form.submit "Import" %>
+<% end %>
+
+<hr>
+
+<%= form_with url: nuke_person_index_path do |form| %>
+  <%= form.submit "Clear DB" %>
 <% end %>
